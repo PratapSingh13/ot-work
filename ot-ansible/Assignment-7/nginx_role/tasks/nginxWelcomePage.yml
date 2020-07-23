@@ -1,0 +1,15 @@
+---
+- name: System Information
+  blockinfile:
+    dest: "{{nginxHomePagePath}}"
+    marker: "<!-- {mark} ANSIBLE SYSTEM INFO BLOCK -->"
+    insertafter: "<h1>Welcome to Nginx</h1>"
+    block: | 
+      "<h2>Welcome OpsTree to Nginx</h2>"
+      <p> Hostname= "{{ ansible_hostname }}"</p>
+      <p> IP Address= "{{ansible_default_ipv4}}"</p>
+      <p> Operating System= "{{ansible_distribution}}"</p>
+      <p> RAM info= "{{ansible_memory_mb}}"</p>
+      <p> Disk Info= "{{ansible_mounts}}"</p>
+      <p> Network Devices= "{{ansible_interfaces}}"</p>
+

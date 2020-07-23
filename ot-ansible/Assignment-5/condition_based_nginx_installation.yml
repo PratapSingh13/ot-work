@@ -1,0 +1,23 @@
+---
+- name: Install Nginx when /var/www/html/index.nginx-debian.html file doesn't exist
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Ansible to check either file exist
+    stat:
+     path: /var/etc/www/html/index.nginx-debian.html
+    register: status
+  - name: Install Nginx on Ubuntu
+    apt: 
+     name: nginx
+     state: present
+    when: ansible_facts['os_family'] == "Debian" and status.stat.exists == False
+  - name: Install Nginx on CentOS
+    yum: 
+     name: nginx
+     state: present
+    when: ansible_facts['os_family'] == "RedHat" and status.stat.exists == False
+  - name: Print that file exist
+    debug: 
+     msg: "Index file is Present"
+    when: status.stat.exist

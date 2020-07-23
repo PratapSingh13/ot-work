@@ -1,0 +1,18 @@
+---
+- name: Cron Installer
+  hosts: localhost
+  become: yes
+  vars_prompt: 
+   - name: installingParameter
+     prompt: "Hey do you want to install cron ?"
+  tasks:
+   - name: Installing Cron for Debian
+     apt:
+      name: cron 
+      state: present
+     when: ansible_facts['os_family'] == "Debian" and installingParameter == "yep"
+   - name: Installing Cron for RedHat
+     yum:
+      name: cron
+      state: present
+      when: ansible_facts['os_family'] == "RedHat" and installingParameter == "yep"

@@ -1,0 +1,7 @@
+---
+# defaults file for nginx_role
+nginxHomePagePath: "/var/www/html/index.html"
+user: "opstree"
+nginxConfigPath: "/etc/nginx/sites-available/default"
+port: "80"
+

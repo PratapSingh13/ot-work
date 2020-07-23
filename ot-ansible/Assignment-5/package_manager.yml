@@ -1,0 +1,13 @@
+---
+- name: Multiple Package PLaybook
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Installing different Packages using loop
+    apt:
+     name: "{{ item }}"
+     state: present 
+    loop:
+     - vim
+     - nano
+      

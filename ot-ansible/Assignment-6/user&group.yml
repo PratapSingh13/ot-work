@@ -1,0 +1,28 @@
+---
+- name: "Playbook for User & Group management"
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: "Adding User ninja to opstree"
+    user:
+      name: ninja
+      groups: opstree
+      state: present
+    register: addedninja
+  - name: "Adding User sensei to opstree"
+    user:
+     name: sensei
+     groups: opstree
+     state: present
+    register: addedsensei
+  - name: "Adding User ninja to devops group if opstree group doesn't exist"
+    user: 
+     name: ninja
+     groups: devops
+    when: addedninja is failed
+  - name: "Adding User sensei to devops group if opstree group doesn't exist"
+    user:
+     name: sensei
+     groups: devops
+    when: addedsensei is failed

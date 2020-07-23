@@ -1,0 +1,25 @@
+---
+- name: "Playbook for UserManagement"
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  vars:
+   user: yogendrapratapsingh
+   group: playbook
+  tasks:
+  - name: "Add-User to the localhost"
+    user:
+      name: "{{ user }}"
+      shell: /bin/bash 
+      state: present 
+
+  - name: "Add-Group to the localhost"
+    group:
+      name: "{{ group }}"
+      state: present
+
+  - name: "Adding User to group"
+    user:
+      name: "{{ user }}"
+      groups: "{{ group }}"
+      append: yes

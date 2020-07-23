@@ -1,0 +1,36 @@
+---
+- name: Install Nginx into your system
+  hosts: localhost
+  tasks:
+  - name: Install Nginx for Debian family
+    apt: 
+     name: nginx
+     state: present
+    when: ansible_facts['os_family'] == "Debian"
+  - name: Install Nginx on CentOS
+    yum: 
+     name: nginx
+     state: present
+    when: ansible_facts['os_family'] == "RedHat"
+    become: yes
+  - name: Start Nginx
+    service:
+     name: nginx
+     state: started
+    become: yes
+  - name: Stop Nginx
+    service: 
+     name: nginx
+     state: stopped
+    become: yes
+  - name: Hosting a custom HTML page
+    lineinfile:
+      path: /var/www/html/index.nginx-debian.html
+      regexp: 'Welcome to nginx'
+      line: 'Hello,Yogendra Pratap Singh'
+    become: yes
+  - name: Restart Nginx
+    service:
+     name: nginx
+     state: restarted
+    become: yes

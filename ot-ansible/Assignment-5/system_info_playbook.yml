@@ -1,0 +1,24 @@
+---
+- name: Getting System information
+  hosts: localhost
+  tasks:
+  - name: Print hostname
+    debug: 
+      msg: "{{ansible_hostname}}"
+  - name: Getting IP Address
+    debug:
+     msg: "{{ansible_default_ipv4}}"
+  - name: Operating System information
+    debug:
+     msg: "{{ansible_distribution}}"
+  - name: RAM information
+    debug:
+     msg: "{{ansible_memory_mb}}"
+  - name: Disk information
+    debug:
+     msg: "{{ansible_mounts}}"
+  - name: Network devices information
+    debug:
+     msg: "{{ansible_interfaces}}"
+
+...

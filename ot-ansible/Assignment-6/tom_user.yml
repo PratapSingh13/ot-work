@@ -1,0 +1,17 @@
+---
+- name: "Playbook for User and Group creation"
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  vars:
+   user: Tom
+   group: Cat
+  tasks:
+  - name: "Adding user named Tom"
+    user:
+      name: "{{ user }}"
+      state: present
+  - name: "Adding group named Cat"
+    group: 
+      name: "{{ group }}"
+      state: present

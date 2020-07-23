@@ -1,0 +1,5 @@
+---
+# tasks file for nginx_role
+- include_tasks: install.yml
+- include_tasks: nginxWelcomePage.yml
+- include_tasks: configureNginxHomepage.yml

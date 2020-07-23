@@ -1,0 +1,7 @@
+---
+- name: Change Welcome Message for Nginx
+  lineinfile:
+    dest: "{{nginxHomePagePath}}"
+    regex: "<h1>Welcome to Nginx</h1>"
+    line: "<h1>Hello from {{user}}</h1>"
+

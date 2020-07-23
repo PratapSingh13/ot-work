@@ -1,0 +1,157 @@
+node
+{
+    stage('Cloning Repository')
+    {
+        try
+        {
+            sh "echo Code cloning from Remote Repository"
+            git credentialsId: '49d45759-003f-4584-ae3e-86ae75dc55d3', 
+            url: 'git@gitlab.com:yogendra.pratap/jenkins-ci.git'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Repository Cloning', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    stage('Code Stability')
+    {   
+        try
+        {
+            sh 'sudo mvn compile'
+            echo "Compile successful"
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Code Stability Status', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    stage('Code Quality')
+    {
+        try
+        {
+            echo "Checking Code Quality"
+            sh "sudo mvn compile site"
+            pmd canComputeNew: false, 
+            defaultEncoding: '', 
+            failedTotalAll: '1', 
+            failedTotalHigh: '1', 
+            failedTotalLow: '1', 
+            failedTotalNormal: '3', 
+            healthy: '', 
+            pattern: '**/jenkins-ci/target/pmd.xml', 
+            unHealthy: ''
+        }
+        catch (err) 
+        {
+            emailext attachLog: true, 
+            attachmentsPattern: 'target/pmd.xml', 
+            body: '', 
+            subject: 'Code Quality Status', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh "exit 1"
+        }
+    }
+    stage('Code Coverage')
+    {
+        try
+        {
+            echo "Checking Code Coverage"
+            sh "sudo mvn cobertura:cobertura"
+            cobertura autoUpdateHealth: false, 
+            autoUpdateStability: false, 
+            coberturaReportFile: '**/target/site/cobertura/coverage.xml', 
+            conditionalCoverageTargets: '70, 0, 0', 
+            failUnstable: false, 
+            lineCoverageTargets: '83, 0, 0', 
+            maxNumberOfBuilds: 0, 
+            methodCoverageTargets: '80, 0, 0', 
+            onlyStable: false, 
+            sourceEncoding: 'ASCII', 
+            zoomCoverageChart: false
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Code Coverage Status', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            
+            
+        }    
+        catch (err) 
+        {
+            emailext attachLog: true, 
+            attachmentsPattern: 'target/site/cobertura/coverage.xml', 
+            body: '', 
+            subject: 'Issues on Code Coverage', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh "exit 1"
+        }    
+    }
+    stage('Unit Test Reports')
+    {
+        try
+        {
+            echo "Generating Unit Test Report"
+            sh "sudo mvn surefire-report:report"
+        }
+        catch (err) 
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Issues on Unit Test Report', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh "exit 1"
+        }
+    }
+    stage('Unit Testing')
+    {
+        try
+        {
+            echo "Unit Testing"
+            sh "sudo mvn test"
+            emailext attachLog: true, 
+            attachmentsPattern: 'target/site/surefire-report.html', 
+            body: '', 
+            subject: 'Successful Unit Test', 
+            to: 'yogendrapratapsingh70@gmail.com'
+        }
+        catch (err) 
+        {
+            emailext attachLog: true, 
+            attachmentsPattern: 'target/site/surefire-report.html', 
+            body: '', 
+            subject: 'Un-Successful Unit Test', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh "exit 1"
+        }
+    }
+
+     stage('Publishing Artifact on Nexus')
+    {
+        try
+        {
+            sh "sudo mvn install"
+            nexusArtifactUploader artifacts: [[artifactId: 'ot-CI', 
+            classifier: '', 
+            file: 'target/ot-CI-1.0.jar', 
+            type: 'jar']], 
+            credentialsId: '49d45759-003f-4584-ae3e-86ae75dc55d3', 
+            groupId: 'ToolsQA', 
+            nexusUrl: 'localhost:8081', 
+            nexusVersion: 'nexus3', 
+            protocol: 'http', 
+            repository: 'maven-snapshot', 
+            version: '1.0'
+        }
+        catch(Exception e)
+       {
+            echo "Deploying artifacts to nexus failed"
+       }
+    }
+}

@@ -1,0 +1,5 @@
+---
+- hosts: Master
+  roles:
+    - aws_role
+

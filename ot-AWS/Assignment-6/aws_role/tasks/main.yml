@@ -1,0 +1,9 @@
+---
+# tasks file for aws_role
+
+- include: ec2Key.yml
+- include: ec2SecurityGroup.yml
+- include: ec2Instance.yml
+
+
+

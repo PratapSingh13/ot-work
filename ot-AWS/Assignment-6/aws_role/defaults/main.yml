@@ -1,0 +1,12 @@
+---
+# defaults file for aws_role
+
+aws_region: "ap-south-1"
+aws_key_name: "aws_ansible_key"
+aws_key_path: "~/Documents/{{ aws_key_name }}"
+aws_SecurityGroup_name: "aws_SG"
+VPC_ID: "vpc-b02f3fd8"
+aws_instance_type: "t2.micro"
+aws_instance_image: "ami-0b44050b2d893d5f7"
+aws_security_groupId: "sg-03c1428f329952b66"
+aws_subnetId: "subnet-08bd830b0aff968c7"

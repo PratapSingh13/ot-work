@@ -1,0 +1,18 @@
+---
+- name: Create a new EC2 key
+  ec2_key:
+    name: "{{ aws_key_name }}"
+    region: "{{ aws_region }}"
+  register: ec2_key_result
+ 
+- name: Print EC2 Key result
+  debug:
+    msg: "{{ ec2_key_result }}"
+
+- name: Save Private-Key
+  copy: 
+    content: "{{ ec2_key_result.key.private_key }}" 
+    dest: "{{ aws_key_path }}" 
+    mode: 400
+  when: ec2_key_result.changed
+

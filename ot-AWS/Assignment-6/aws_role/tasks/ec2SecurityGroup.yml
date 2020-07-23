@@ -1,0 +1,17 @@
+---
+- name: Security Group
+  ec2_group:
+    name: "{{ aws_SecurityGroup_name }}"
+    description: For EC2 Security Group
+    vpc_id: "{{ VPC_ID }}"
+    region: "{{ aws_region }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0

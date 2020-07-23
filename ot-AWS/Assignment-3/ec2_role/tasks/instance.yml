@@ -1,0 +1,23 @@
+---
+- name: Create EC2 Instance
+  ec2:
+    key_name: "{{ aws_key_name }}"
+    instance_type: "{{ aws_instance_type }}"
+    image: "{{ aws_instance_image }}"
+    wait: yes
+    region: "{{ aws_region }}"
+    group_id: "{{ aws_security_groupId }}"
+    count: 1
+    instance_tags:
+      Name: Linux
+    vpc_subnet_id: "{{ aws_subnetId }}"
+    assign_public_ip: yes
+    user_data: | 
+      #!/bin/bash
+      sudo apt-add-repository ppa:ansible/ansible
+      sudo apt-get update
+      sudo apt-get install ansible -y
+      git clone https://github.com/PratapSingh13/AWS-TEST.git /tmp/git_dir
+      ansible-playbook /tmp/git_dir/playbook.yml
+
+

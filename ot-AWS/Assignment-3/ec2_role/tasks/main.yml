@@ -1,0 +1,4 @@
+---
+# tasks file for ec2_role
+
+- include: instance.yml

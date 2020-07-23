@@ -1,0 +1,6 @@
+---
+# defaults file for artifact
+attendance_version: "1"
+salary_version: "1"
+employee_version: "1"
+gateway_version: "1"

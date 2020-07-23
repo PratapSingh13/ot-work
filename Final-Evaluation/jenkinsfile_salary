@@ -1,0 +1,74 @@
+node
+{
+    now = new Date()
+    println now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+    cleanWs()
+    stage("Clonnig Application") 
+    {
+        try
+        {
+            git credentialsId: 'c894b238-786a-4952-82db-971760d5548d', 
+            url: 'https://github.com/PratapSingh13/Final-Evaluation.git'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Application clone', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    stage("Building Salary Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd salary && make'
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+            dir('salary')
+            {
+                sh " mv salary salary${time}"
+            }
+            //version = version.split('/')
+            //echo "$version"
+        }
+            
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Binary Build', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage("Uploading Salary artifact")
+    {
+        try
+        {
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: "ot-microservices/Salary/salary${time}", 
+            excludedFile: 'salary/salary_api.go', 
+            flatten: false, gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: false, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'salary/salary*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+}

@@ -1,0 +1,8 @@
+---
+- name: Create database
+  mysql_db:
+    login_user: "{{ mysql_new_user }}"
+    login_password: "{{ mysql_new_user_password }}"
+    login_host: "{{ ec2_private_ip_address }}"
+    state: present
+    name: "{{ create_database }}"

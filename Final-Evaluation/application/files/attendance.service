@@ -1,0 +1,13 @@
+[Unit]
+Requires=network.target
+After=network.target
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+Restart=always
+RestartSec=3
+Environment="CONFIG_FILE"="/opt/application/attendance/config.yaml"
+ExecStart=/opt/attendance/attendance
+[Install]
+WantedBy=multi-user.target

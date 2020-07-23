@@ -1,0 +1,3 @@
+---
+# vars file for go
+go_download_location: "https://golang.org/dl/go1.14.4.linux-amd64.tar.gz"

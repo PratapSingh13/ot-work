@@ -1,0 +1,16 @@
+---
+- name: Downlaod the NodeJs tarball
+  shell: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+  args:
+    executable: /bin/bash
+
+- name: Downlaoding NodeJs
+  shell: apt-get install -y nodejs
+  args:
+    executable: /bin/bash
+
+- name: Downlaoding Serve using npm
+  shell: npm install -g serve
+  args:
+    executable: /bin/bash
+

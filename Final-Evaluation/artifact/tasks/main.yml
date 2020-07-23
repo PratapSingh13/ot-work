@@ -1,0 +1,46 @@
+---
+- name: Install boto3 and botocore and boto
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+
+- name: New
+  pip: 
+    name: [ "boto3", "botocore","boto" ]
+    state: present 
+
+- name: Create  Directories for application
+  file:
+    path: "/opt/{{ item.name }}"
+    state: directory
+  loop:
+    -  name: 'attendance'
+    -  name: 'salary'
+    -  name: 'employee'
+    -  name: 'gateway'
+    -  name: 'frontend'
+
+- name: S3 Download each Artifact 
+  aws_s3:
+    bucket: ot-microservices
+    object: "{{ item.folder }}/{{ item.version }}/{{ item.version }}"
+    dest: "/opt/{{ item.name }}/{{ item.name }}"
+    mode: get
+  loop:
+    - { name: 'attendance', folder: 'Attendance', version: "{{ attendance_version }}" , artifact: 'attendance' }
+    - { name: 'salary', folder: 'Salary', version: "{{ salary_version }}" , artifact: 'salary' }
+    - { name: 'employee', folder: 'Employee', version: "{{ employee_version }}" , artifact: 'employee' }
+    - { name: 'gateway', folder: 'Gateway', version: "{{ gateway_version }}" , artifact: 'gateway-service.jar' }
+    
+
+- name: Change mode
+  file:
+    state: file
+    path: "/opt/{{ item.name }}/{{ item.name }}"
+    mode: 751
+  loop:
+    -  name: 'attendance'
+    -  name: 'salary'
+    -  name: 'employee'
+    -  name: 'gateway'

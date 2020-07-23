@@ -1,0 +1,70 @@
+node
+{
+    stage("Clonnig Application") 
+    {
+        try
+        {
+            git credentialsId: 'c894b238-786a-4952-82db-971760d5548d', 
+            url: 'https://github.com/PratapSingh13/Final-Evaluation.git'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Application clone', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Building NodeJs Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd frontend && npm install'
+            sh label: '', script: 'cd frontend && npm run build'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true,
+            body: '',
+            subject: 'Regarding NodeJs Build',
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Uploading Salary artifact")
+    {
+        try
+        {
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: 'ot-microservices', 
+            excludedFile: '', 
+            flatten: false, 
+            gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: true, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false, 
+            sourceFile: 'frontend/*', 
+            storageClass: 'STANDARD', 
+            uploadFromSlave: false, 
+            useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+}

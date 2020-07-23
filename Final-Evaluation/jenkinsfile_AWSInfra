@@ -1,0 +1,83 @@
+node
+{
+    stage("Cloning from GIT")
+    {
+        try
+        {
+            git credentialsId: 'c894b238-786a-4952-82db-971760d5548d', 
+            url: 'https://github.com/PratapSingh13/Application-Deployment'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Cloning', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage('Init Terraform')
+    {
+        try
+        {
+            sh label: '', script: 'cd Terraform/ && terraform init'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Terraform Initialization', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage('Plannig Terraform')
+    {
+        try
+        {
+            sh label: '', script: 'cd Terraform/ && terraform plan'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Terraform plan', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage('Apply Terraform') {
+        input message: 'Press Yes to apply changes', ok: 'YES'
+        try
+        {
+            sh label: '', script: 'cd Terraform/ && terraform apply -lock=false -auto-approve'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Terraform Apply', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage('Getting json')
+    {
+        try
+        {
+            sh label: '', script: 'cd dynamic-inventory/ && ./ec2.py --refresh-cache'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: 'Regarding JSON fetching', 
+            subject: 'Retrieving Data', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+}

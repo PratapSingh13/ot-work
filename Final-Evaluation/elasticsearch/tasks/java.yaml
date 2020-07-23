@@ -1,0 +1,14 @@
+---
+- name: Install Java | Debian
+  apt: 
+    name: "{{javapackage}}"
+    state: present
+    update_cache: yes
+  when: ansible_facts['os_family'] == "Debian" 
+         
+- name: Install Java | Redhat 
+  yum: 
+    name: "{{javapackage}}"
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+ 

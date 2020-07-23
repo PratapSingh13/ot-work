@@ -1,0 +1,270 @@
+node
+{
+    stage("Clonnig Application") 
+    {
+        try
+        {
+            git credentialsId: 'c894b238-786a-4952-82db-971760d5548d', 
+            url: 'https://github.com/PratapSingh13/Final-Evaluation.git'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Application clone', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Building NodeJs Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd frontend && npm install'
+            sh label: '', script: 'cd frontend && npm run build'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true,
+            body: '',
+            subject: 'Regarding NodeJs Build',
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Uploading Salary artifact")
+    {
+        try
+        {
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: 'ot-microservices', 
+            excludedFile: '', 
+            flatten: false, 
+            gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: true, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false, 
+            sourceFile: 'frontend/*', 
+            storageClass: 'STANDARD', 
+            uploadFromSlave: false, 
+            useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Building Salary Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd salary && make'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true,
+            body: '',
+            subject: 'Regarding Salary Binary Build',
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Uploading Salary artifact")
+    {
+        try
+        {
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: 'ot-microservices', 
+            excludedFile: '', 
+            flatten: false, 
+            gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: true, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false, 
+            sourceFile: 'salary/salary', 
+            storageClass: 'STANDARD', 
+            uploadFromSlave: false, 
+            useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Building Employee Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd employee && make'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true,
+            body: '',
+            subject: 'Regarding Employee Binary Build',
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Uploading Employee artifact")
+    {
+        try
+        {
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: 'ot-microservices', 
+            excludedFile: '', 
+            flatten: false, 
+            gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: true, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false, 
+            sourceFile: 'employee/employee', 
+            storageClass: 'STANDARD', 
+            uploadFromSlave: false, 
+            useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Building Attendance Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd attendance && make'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Attendance Binary Build', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage("Uploading Attendance artifact")
+    {
+        try
+        {
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: 'ot-microservices', 
+            excludedFile: '', 
+            flatten: false, 
+            gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: true, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false, 
+            sourceFile: 'attendance/attendance', 
+            storageClass: 'STANDARD', 
+            uploadFromSlave: false, 
+            useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Attendance Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Building Gateway Artifact")
+    {
+        try
+        {
+            sh label: '', script: 'cd gateway && make'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true,
+            body: '',
+            subject: 'Regarding Gateway Build',
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+
+    stage("Uploading JAR")
+    {
+        try
+        {
+            s3Upload consoleLogLevel: 'INFO', 
+            dontSetBuildResultOnFailure: false, 
+            dontWaitForConcurrentBuildCompletion: false, 
+            entries: [[bucket: 'ot-microservices', 
+            excludedFile: '', 
+            flatten: false, 
+            gzipFiles: false, 
+            keepForever: false, 
+            managedArtifacts: true, 
+            noUploadOnFailure: true, 
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false, 
+            sourceFile: 'gateway/target/gateway-service.jar', 
+            storageClass: 'STANDARD', 
+            uploadFromSlave: false, 
+            useServerSideEncryption: false]], 
+            pluginFailureResultConstraint: 'FAILURE', 
+            profileName: 'Yogendra Pratap Singh', 
+            userMetadata: []
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Attendance Artifact Uploading', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+}

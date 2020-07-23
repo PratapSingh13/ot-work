@@ -1,0 +1,16 @@
+
+- name: Creating user pratap
+  mysql_user: 
+    name: "{{ mysql_new_user }}"
+    password: "{{ mysql_new_user_password }}"
+    login_user: debian-sys-maint
+    priv: '*.*:ALL'
+    host: "%"
+    state: present
+    config_file: /etc/mysql/debian.cnf
+
+
+- name: Re-Start MySQL | Debian
+  service: 
+    name: mysql
+    state: restarted

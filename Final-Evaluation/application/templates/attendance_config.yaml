@@ -1,0 +1,9 @@
+attendance:
+  api_port: "8081"
+
+mysql:
+  enabled: true
+  db_name: "attendancedb"
+  host: "{{ mysql_ip }}:3306"
+  username: pratap
+  password: root

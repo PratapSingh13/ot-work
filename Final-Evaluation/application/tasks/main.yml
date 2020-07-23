@@ -1,0 +1,58 @@
+---
+# tasks file for application
+- name: Cloning Application
+  include: git.yml
+
+- name: Changing nginx.conf
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Re-start nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: Template for Attendance
+  template:
+    src: attendance_config.yaml
+    dest: /opt/application/attendance/config.yaml
+
+- name: Template for Salary
+  template:
+    src: salary_config.yaml
+    dest: /opt/application/salary/config.yaml
+
+- name: Template for Employee
+  template:
+    src: employee_config.yaml
+    dest: /opt/application/employee/config.yaml
+
+- name: Copying Attendance
+  copy:
+    src: attendance.service
+    dest: /etc/systemd/system/attendance.service
+
+- name: Copying Salary
+  copy:
+    src: salary.service
+    dest: /etc/systemd/system/salary.service
+
+- name: Copying Employee
+  copy:
+    src: employee.service
+    dest: /etc/systemd/system/employee.service
+
+- name: Copying Frontend
+  copy:
+    src: frontend.service
+    dest: /etc/systemd/system/frontend.service
+
+- name: Copying Gateway
+  copy:
+    src: gateway.service
+    dest: /etc/systemd/system/gateway.service
+
+- name: Build binaries
+  include: build.yml
+

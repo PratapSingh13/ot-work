@@ -1,0 +1,12 @@
+node
+{
+    stage('Cloning')
+    {
+        git credentialsId: 'c894b238-786a-4952-82db-971760d5548d', 
+        url: 'https://github.com/PratapSingh13/Application-Deployment'
+    }
+    stage('Application Deployment')
+    {
+        sh label: '', script: 'ansible-playbook -i dynamic-inventory/ec2.py playbook2.yml -e "mysql_ip=$mysql_ip" -e "elasticsearch_ip=$elasticsearch_ip"'
+    }
+}

@@ -1,0 +1,22 @@
+---
+# tasks file for mysql
+
+- name: Installing MySQL
+  include: installer.yml
+
+- name: Copy config file 
+  template:
+    src: mysql_configure.j2
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+
+- name: User Creation
+  include: user.yml
+
+- name: Database Creation
+  include: db.yml
+
+- name: Configuring MySQL
+  include: user.yml
+
+
+

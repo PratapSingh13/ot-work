@@ -1,0 +1,7 @@
+---
+# defaults file for mysql
+mysql_new_user: pratap
+mysql_new_user_password: root
+mysql_default_user: debian-sys-maint
+mysql_server: mysql-server
+create_database: attendancedb

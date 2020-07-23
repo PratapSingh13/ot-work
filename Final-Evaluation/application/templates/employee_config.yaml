@@ -1,0 +1,9 @@
+---
+elasticsearch:
+  enabled: true
+  host: http://{{ elasticsearch_ip }}:9200
+  username: elastic
+  #password: 
+
+employee:
+  api_port: "8083"

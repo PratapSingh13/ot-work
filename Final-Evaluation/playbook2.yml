@@ -1,0 +1,6 @@
+---
+- hosts: tag_Name_ASG_LINUX
+  become: yes
+  become_method: sudo
+  roles:
+    - application

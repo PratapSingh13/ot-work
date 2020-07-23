@@ -1,0 +1,4 @@
+---
+# tasks file for maven
+- name: Include Debian specific tasks
+  include: installer.yml

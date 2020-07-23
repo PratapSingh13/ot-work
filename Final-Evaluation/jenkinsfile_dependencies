@@ -1,0 +1,43 @@
+node
+{
+    stage("Clonnig Application") 
+    {
+        try
+        {
+            git credentialsId: 'c894b238-786a-4952-82db-971760d5548d', 
+            url: 'https://github.com/PratapSingh13/Application-Deployment'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Application clone', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    stage('Getting json')
+    {
+        try
+        {
+            sh label: '', script: 'dynamic-inventory/ec2.py --refresh-cache'
+        }
+        catch(Exception e)
+        {
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Retrieving Data', 
+            to: 'yogendrapratapsingh70@gmail.com'
+            sh 'exit 1'
+        }
+    }
+    
+    stage("Putting Dependecies")
+    {
+        version_attendance = version_attendance.split("/")
+        version_salary = version_salary.split("/")
+        version_employee = version_employee.split("/")
+        version_gateway = version_gateway.split("/")
+        sh "ansible-playbook -i dynamic-inventory/ec2.py playbook.yml -e attendance_version=${version_attendance[0]} -e salary_version=${version_salary[0]} -e employee_version=${version_employee[0]} -e gateway_version=${version_gateway[0]}"
+    }
+}

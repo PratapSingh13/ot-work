@@ -1,0 +1,13 @@
+cluster.name: Yogendra
+
+node.master: true
+node.data: true
+node.name: master
+
+network.host: "{{ ec2_private_ip_address}}"
+path.logs: /var/log/elasticsearch
+
+cluster.initial_master_nodes: [{{ groups['tag_Name_Elastic'] | map('extract', hostvars, ['ec2_private_ip_address']) | join(",") }}]
+discovery.seed_hosts: [{{ groups['tag_Name_Elastic'] | map('extract', hostvars, ['ec2_private_ip_address']) | join(",") }}]
+
+path.data: /var/lib/elasticsearch

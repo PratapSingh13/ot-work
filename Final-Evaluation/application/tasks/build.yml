@@ -1,0 +1,35 @@
+---
+- name: Build attendance microservice
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+    name: attendance
+
+- name: Build salary microservice
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+    name: salary
+
+- name: Build employee microservice
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+    name: employee
+
+- name: Build frontend microservice
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+    name: frontend
+
+- name: Build gateway microservice
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+    name: gateway

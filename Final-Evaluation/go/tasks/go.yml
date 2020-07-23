@@ -1,0 +1,21 @@
+---
+- name: Download the Go tarball
+  get_url:
+    url: "{{ go_download_location }}"
+    dest: /usr/local/src/{{ go_tarball }}
+    
+- name: Extract the Go tarball if Go is not yet installed or not the desired version
+  unarchive:
+    src: /usr/local/src/{{ go_tarball }}
+    dest: /usr/local
+    copy: no
+
+- name: Add the Go bin directory to the PATH environment variable
+  copy:
+    src: go-bin.sh
+    dest: /etc/profile
+
+- name: Sourcing Go /etc/profile
+  shell: source /etc/profile
+  args: 
+    executable: /bin/bash

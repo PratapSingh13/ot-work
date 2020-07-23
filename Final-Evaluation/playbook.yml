@@ -1,0 +1,25 @@
+---
+- hosts: tag_Name_ASG_LINUX
+  become: yes
+  become_method: sudo
+  roles:
+    - nginx
+    - artifact
+    - go
+    - nodejs
+    - maven
+
+- hosts: tag_Name_Elastic
+  become: yes
+  become_method: sudo
+  roles:
+    - elasticsearch
+
+- hosts: tag_Name_MySQL
+  become: yes
+  become_method: sudo
+  roles:
+    - mysql
+
+
+

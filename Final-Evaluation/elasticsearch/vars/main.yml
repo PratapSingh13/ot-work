@@ -1,0 +1,3 @@
+---
+# vars file for hostnginx
+websitepath: /var/www/opstree

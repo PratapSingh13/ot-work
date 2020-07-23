@@ -1,0 +1,14 @@
+---
+- name: Updating cache "apt-get update"
+  apt:
+    update_cache: yes
+    
+- name: Ensure nginx is at the latest version
+  apt: 
+    name: nginx 
+    state: latest
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started

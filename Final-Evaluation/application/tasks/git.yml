@@ -1,0 +1,8 @@
+ 
+- name: Clone Git repository
+  git:
+    repo: https://github.com/PratapSingh13/ot-micro.git
+    version: master
+    dest: /opt/application
+    accept_hostkey: yes
+    force: yes

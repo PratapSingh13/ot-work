@@ -1,0 +1,4 @@
+---
+# tasks file for go
+- name: Include Go
+  include: go.yml

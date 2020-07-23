@@ -1,0 +1,26 @@
+---  
+- name: Updating cache "apt-get update"
+  apt:
+    update_cache: yes
+
+- name: Install python
+  apt: 
+    name: python
+    state: present
+
+- name: Install packages
+  apt: 
+    name: "{{ item }}"
+  with_items:
+    - python3-pip
+    - python3-mysqldb
+
+- name: Install PyMySQL Dependency
+  pip:
+    name: PyMySQL
+    state:  present
+
+- name: Install mysql
+  apt:
+    name: mysql-server
+

@@ -1,0 +1,9 @@
+---
+# tasks file for nginx
+- name: Include Nginx
+  include: installer.yml
+
+- name: Re-start nginx
+  service:
+    name: nginx
+    state: restarted

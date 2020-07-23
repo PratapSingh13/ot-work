@@ -1,0 +1,17 @@
+---
+- name: Install JVM 
+  include: java.yaml
+
+- name: Install Elasticsearch
+  include: install_elasticsearch.yaml
+- name: Config
+  template: 
+    src: elasticsearch.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    force: yes
+- name: system
+  systemd:
+    daemon_reload: yes
+    name: elasticsearch
+    state: restarted
+

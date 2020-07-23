@@ -1,0 +1,8 @@
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install -y nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
+echo  >> /home/ubuntu/.ssh/authorized_keys <<EOF
+'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDmriu99sGrUuULhLQ35hadPHXkEvI4GyGmmZY9UbCztrrFxsimUlw1BJYlVPCbAEphd25iAqst2jPqFOLQ04pmAbXaUki6YccUZILXS7ngvHcqPKIHRBEJ0anxnzu4Kv9gHCrom83LDyJ0WKIhkPZbfaeEAabCj36ctfFOLNNt482hhTjxI/EAjctjAN/BTs/b9U+qFCaMWjaVm2Q109N5ouvPvrfFD9JjJ195DRj4rUKJMJwpO+qiwTCpjBxCmK64mCtHt9SH2F7TGddO2JGenivbK1RD2Yq2HpkLB6dsIp5ZaU4otZgsxTr0wGQs4ILJuWMggCxO5OseoHYgkI6B opstree@opstree-ThinkPad-E480'
+EOF

@@ -550,3 +550,6 @@ Enabling Docker service
 * Check whether you can access/download images from DockerHub or not.
 ![alt text](images/8.png "Title Text")
 
+![alt text](images/8.1.png "Title Text")
+
+
